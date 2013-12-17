@@ -1,5 +1,8 @@
 source 'http://ruby.taobao.org'
 
+gem 'protected_attributes'
+gem 'devise', '3.2.2'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 
@@ -37,6 +40,7 @@ end
 
 group :development do
   gem 'rspec-rails', '~> 2.14.0'
+  gem 'annotate', '2.6.0'
 end
 
 group :test do

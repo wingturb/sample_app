@@ -3,6 +3,15 @@ SampleApp::Application.routes.draw do
   get "pages/contact"
   get "pages/about"
   get "pages/help"
+  get "users/new"
+  
+  get '/contact', :to => 'pages#contact'
+  get '/about', :to => 'pages#about'
+  get '/help', :to => 'pages#help'
+  get '/signup', :to => 'users#new'
+
+  root :to => 'pages#home'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

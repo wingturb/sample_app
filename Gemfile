@@ -33,6 +33,8 @@ gem 'jbuilder', '1.2'
 # Debugger
 gem 'debugger', '1.6.3'
 
+gem 'gravatar_image_tag', '~>1.2.0'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -46,6 +48,7 @@ end
 group :test do
   gem 'rspec', '~>2.14.0'
   gem 'webrat', '~>0.7.3'
+  gem 'factory_girl_rails', '~>4.3.0'
 end
 
 # Use ActiveModel has_secure_password

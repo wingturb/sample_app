@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
                      }
     validates :password, :presence => true,
                          :confirmation => true,
-                         :length => {:within => 2..60}
+                         :length => {:within => 5..60}
     before_save :encrypt_password
 
     def has_password?(pwd)

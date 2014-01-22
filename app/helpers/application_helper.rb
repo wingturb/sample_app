@@ -8,4 +8,8 @@ module ApplicationHelper
             "#{base_title} | #{@title} "
         end
     end
+
+    def logo
+    	image_tag("logo.jpeg", :class => "round")
+    end
 end

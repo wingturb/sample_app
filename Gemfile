@@ -35,6 +35,8 @@ gem 'debugger', '1.6.3'
 
 gem 'gravatar_image_tag', '~>1.2.0'
 
+gem 'will_paginate', '3.0.5'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -43,6 +45,7 @@ end
 group :development do
   gem 'rspec-rails', '~> 2.14.0'
   gem 'annotate', '2.6.0'
+  gem 'faker', '1.2.0'
 end
 
 group :test do

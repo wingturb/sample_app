@@ -1,7 +1,6 @@
 source 'http://ruby.taobao.org'
 
 gem 'protected_attributes'
-gem 'devise', '3.2.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
@@ -16,13 +15,13 @@ gem 'sass-rails', '~>4.0.0'
 gem 'uglifier', '~>1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~>4.0.0'
+gem 'coffee-rails', '~>4.0.1'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem "jquery-rails", "~> 3.1.0"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -31,7 +30,7 @@ gem 'turbolinks'
 gem 'jbuilder', '1.2'
 
 # Debugger
-gem 'debugger', '1.6.3'
+gem 'debugger', '1.6.5'
 
 gem 'gravatar_image_tag', '~>1.2.0'
 

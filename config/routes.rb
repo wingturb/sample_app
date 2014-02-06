@@ -1,7 +1,10 @@
 SampleApp::Application.routes.draw do
+  get "microposts/create"
+  get "microposts/destroy"
   get "sessions/new"
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]
+  resources :microposts, :only => [:create, :destroy]
 
   get "pages/home"
   get "pages/contact"
@@ -14,7 +17,8 @@ SampleApp::Application.routes.draw do
   get '/signup', :to => 'users#new'
 
   get '/signin', :to => 'sessions#new'
-  get '/signout', :to => 'sessions#destroy'
+  #delete 'signout', :to => 'sessions#destroy'
+  match 'signout', :to => 'sessions#destroy', via: [:delete, :get]
 
   root :to => 'pages#home'
 

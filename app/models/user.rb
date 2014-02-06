@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
                          :length => {:within => 5..60}
     before_save :encrypt_password
 
+    has_many :microposts, :dependent => :destroy
+
     def has_password?(pwd)
     	encrypted_password == encrypt(pwd)
     end
@@ -37,6 +39,9 @@ class User < ActiveRecord::Base
         (user && user.salt == cookie_salt) ? user : nil
     end
 
+    def feed
+        Micropost.where("user_id=?", id)
+    end
     
     private
 

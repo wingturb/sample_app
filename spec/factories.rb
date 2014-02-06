@@ -17,6 +17,13 @@ FactoryGirl.define do
     # user.password_confirmation "pass1"
     # end
 
+    factory :micropost do |micropost|
+    	sequence :content do |n|
+    		"this is content--#{n}"
+    	end
+    	micropost.association :user
+    end
+
     sequence :email do |n|
     	"sequese_person-#{n}@factory.com"
     end

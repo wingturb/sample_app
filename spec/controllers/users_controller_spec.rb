@@ -15,14 +15,14 @@ describe UsersController do
 
     describe "for signed-in users" do
       before(:each) do 
-        @user = test_sign_in(FactoryGirl.create(:user))
-        second = FactoryGirl.create(:user)
-        third = FactoryGirl.create(:user)
+        @user = test_sign_in(FactoryGirl.create(:user, :name=>"aaa1"))
+        second = FactoryGirl.create(:user,:name=>"aaa2")
+        third = FactoryGirl.create(:user,:name=>"aaa3")
         @users = [@user, second, third]
 
-        30.times do
-        @users << FactoryGirl.create(:user)#, :name=>FactoryGirl.generate(:name), :email=>FactoryGirl.generate(:email))
-        end
+        30.times {
+          @users << FactoryGirl.create(:user)#, :name=>FactoryGirl.generate(:name), :email=>FactoryGirl.generate(:email))
+        }
       end
 
       it "should be successful" do
@@ -58,68 +58,81 @@ describe UsersController do
     before(:each) do
       @user = FactoryGirl.create(:user)
     #User.stub!(:find, @user.id).and_return(@user)
-  end
-  it "should be successful" do
-    get :show, :id =>@user
-    response.should be_success
-  end
-  it "should find the right user" do
-    get :show, :id=>@user
-    assigns(:user).should == @user
-  end
-  it "returns http success" do
-    get 'new'
-    response.should be_success
+    end
+
+    it "returns http success" do
+      get 'new'
+      response.should be_success
+    end
+
+    it "should have a signup page at '/signup'" do
+      get 'new'
+      response.should have_selector('title', :content => "Sign up")
+    end
   end
 
-
-  it "should have a signup page at '/signup'" do
-    get 'new'
-    response.should have_selector('title', :content => "Sign up")
-  end
-
-  it "should have the right title" do
-    get :show, :id=>@user
-    response.should have_selector("title", :content => @user.name)
-  end
-
-  it "should include the user's name" do
-    get :show, :id =>@user
-    response.should have_selector("h1", :content=>@user.name)
-  end
-
-  it "should have a profile image" do
-    get :show, :id =>@user
-    response.should have_selector("h1>img", :class=> "gravatar")
-  end
-end
-
-describe "POST 'create'" do
-  describe "failure" do
+  describe "Get 'show'" do
     before(:each) do
-      @attr = {:name=>"", :email=>"", :password=>"", :password_confirmation=>""}
+      @user = FactoryGirl.create(:user)
     end
 
-    it "should not create a user" do
-      lambda do
-        post :create, :user=>@attr
-      end.should_not change(User, :count)
+    it "should be successful" do
+      get :show, :id =>@user
+      response.should be_success
     end
-
+    it "should find the right user" do
+      get :show, :id=>@user
+      assigns(:user).should == @user
+    end
     it "should have the right title" do
-      post :create, :user=>@attr
-      response.should have_selector("title", :content =>"Sign up")
+      get :show, :id=>@user
+      response.should have_selector("title", :content => @user.name)
     end
 
-    it "should render the 'new' page" do
-      post :create, :user=>@attr
-      response.should render_template('new')
+    it "should include the user's name" do
+      get :show, :id =>@user
+      response.should have_selector("h1", :content=>@user.name)
+    end
+
+    it "should have a profile image" do
+      get :show, :id =>@user
+      response.should have_selector("h1>img", :class=> "gravatar")
+    end
+
+    it "should show the user's microposts" do
+      mp1 = FactoryGirl.create(:micropost, :user=>@user)
+      mp2 = FactoryGirl.create(:micropost, :user=>@user)
+      get :show, :id=>@user
+      response.should have_selector("span.content", :content=>mp1.content)
+      response.should have_selector("span.content", :content=>mp2.content)
     end
   end
-  describe "success" do
-    before(:each) do
-      @attr = { :name => "New User", :email => "user@example.com",
-        :password => "foobar", :password_confirmation => "foobar" }
+
+  describe "POST 'create'" do
+    describe "failure" do
+      before(:each) do
+        @attr = {:name=>"", :email=>"", :password=>"", :password_confirmation=>""}
+      end
+
+      it "should not create a user" do
+        lambda do
+          post :create, :user=>@attr
+        end.should_not change(User, :count)
+      end
+
+      it "should have the right title" do
+        post :create, :user=>@attr
+        response.should have_selector("title", :content =>"Sign up")
+      end
+
+      it "should render the 'new' page" do
+        post :create, :user=>@attr
+        response.should render_template('new')
+      end
+    end
+    describe "success" do
+      before(:each) do
+        @attr = { :name => "New User", :email => "user@example.com", :password => "foobar", :password_confirmation => "foobar" }
       end
       it "should create a user" do
         lambda do
@@ -144,7 +157,6 @@ describe "POST 'create'" do
         post :create, :user =>@attr
         controller.should be_signed_in
       end
-
     end
   end
 
@@ -226,7 +238,6 @@ describe "POST 'create'" do
         put :update, :id=>@user, :user=>{}
         response.should redirect_to(root_path)
       end
-
     end
   end
 
@@ -267,9 +278,5 @@ describe "POST 'create'" do
         response.should redirect_to(users_path)
       end
     end
-
-
-
   end
-
 end

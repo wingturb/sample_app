@@ -2,9 +2,14 @@ SampleApp::Application.routes.draw do
   get "microposts/create"
   get "microposts/destroy"
   get "sessions/new"
-  resources :users
+  resources :users do
+    member do #use collection if no id needed
+      get :following, :followers
+    end
+  end
   resources :sessions, :only => [:new, :create, :destroy]
   resources :microposts, :only => [:create, :destroy]
+  resources :relationships, :only=>[:create, :destroy]
 
   get "pages/home"
   get "pages/contact"

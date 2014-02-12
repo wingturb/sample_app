@@ -24,6 +24,26 @@ class User < ActiveRecord::Base
     before_save :encrypt_password
 
     has_many :microposts, :dependent => :destroy
+    #has_many :following, :through=>:relationships, :source=>"followed_id"
+    has_many :relationships, :foreign_key=>"follower_id", :dependent=>:destroy
+    has_many :following, :through=>:relationships, :source=>:followed
+
+     has_many :reversed_relationships, :foreign_key=>"followed_id",
+                                       :class_name=>"Relationship",
+                                       :dependent=>:destroy
+    has_many :followers, :through=>:reversed_relationships, :source=>:follower
+
+    def following?(followed)
+        relationships.find_by_followed_id(followed)
+    end
+
+    def follow!(followed)
+        relationships.create!(:followed_id=>followed.id)
+    end
+
+    def unfollow!(followed)
+        relationships.find_by_followed_id(followed).destroy
+    end
 
     def has_password?(pwd)
     	encrypted_password == encrypt(pwd)
